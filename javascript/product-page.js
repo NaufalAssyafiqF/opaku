@@ -63,23 +63,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       addToCartButton.dataset.productId = product.id;
 
       // 4. Kirim event 'view_item' ke dataLayer untuk GA4
-      //   window.dataLayer = window.dataLayer || [];
-      //   dataLayer.push({
-      //     event: "view_item",
-      //     ecommerce: {
-      //       items: [
-      //         {
-      //           item_id: product.id,
-      //           item_name: product.name,
-      //           price: product.price,
-      //           item_brand: product.brand || "", // Kirim brand jika ada di data Anda
-      //           item_category: product.category || "", // Kirim category jika ada
-      //           quantity: 1, // Quantity untuk view_item selalu 1
-      //         },
-      //       ],
-      //     },
-      //   });
-      //   console.log("dataLayer push (view_item):", dataLayer.slice(-1)[0]);
+      window.dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "view_item",
+        ecommerce: {
+          currency: "IDR",
+          value: product.price,
+          items: [
+            {
+              item_id: product.item_id,
+              item_name: product.item_name,
+              price: product.price,
+              item_category: product.category, 
+              quantity: 1, 
+            },
+          ],
+        },
+      });
 
       // 5. Tambahkan event listener untuk tombol Add to Cart
       // Pastikan event listener hanya ditambahkan setelah tombol ada dan data produk siap
