@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Opaku Store - Home</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="bg-gray-100 shadow-md">
+      <nav
+        class="flex items-center justify-between max-w-[1200px] mx-auto py-4"
+      >
+        <div>
+          <a href="index.html"
+            ><h1 class="font-bold text-2xl">Opaku Store</h1></a
+          >
+        </div>
+        <div>
+          <ul class="flex gap-8 text-xl">
+            <li>Category</li>
+            <li>Cart</li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Section Category Product -->
+    <div class="grid grid-cols-3 max-w-[1200px] mx-auto gap-10 mt-30 px-40">
+      <a href="fashion-page.html"
+        ><div
+          class="w-full flex items-center justify-center aspect-square shadow-md bg-gray-100"
+        >
+          <h1 class="text-2xl font-semibold">Fashion</h1>
+        </div></a
+      >
+      <a href="electronic-page.html"
+        ><div
+          class="w-full flex items-center justify-center aspect-square shadow-md bg-gray-100"
+        >
+          <h1 class="text-2xl font-semibold">Electronic</h1>
+        </div></a
+      >
+      <a href="furniture-page.html"
+        ><div
+          class="w-full flex items-center justify-center aspect-square shadow-md bg-gray-100"
+        >
+          <h1 class="text-2xl font-semibold">Furniture</h1>
+        </div></a
+      >
+    </div>
+
+    <script src="javascript/product-datas.js" type="module"></script>
+  </body>
+</html>
