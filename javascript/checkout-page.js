@@ -43,7 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cartItems.length === 0) {
     // Jika keranjang kosong, tampilkan pesan kosong
     cartEmptyMessage.style.display = "block";
-    cartItemsContainer.innerHTML = "<h1 class='text-center'>your cart is empty</h1>"; // Pastikan container item kosong
+    cartItemsContainer.innerHTML =
+      "<h1 class='text-center'>your cart is empty</h1>"; // Pastikan container item kosong
   } else {
     // Jika keranjang tidak kosong, sembunyikan pesan kosong
     cartEmptyMessage.style.display = "none";
@@ -82,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Gabungkan array string HTML menjadi satu string besar dan masukkan ke dalam container
     cartItemsContainer.innerHTML = cartItemsHtml.join("");
 
+    // menghitung subtotal dan total
     const subTotal = cartItems.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
@@ -89,9 +91,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const tax = subTotal * 0.11;
     const total = subTotal + tax;
 
-    document.getElementById("cart-subtotal").textContent = `Rp. ${subTotal.toLocaleString("id-ID")}`;
-    document.getElementById("cart-tax").textContent = `Rp. ${tax.toLocaleString("id-ID")}`;
-    document.getElementById("cart-total").textContent = `Rp. ${total.toLocaleString("id-ID")}`;
+    document.getElementById(
+      "cart-subtotal"
+    ).textContent = `Rp. ${subTotal.toLocaleString("id-ID")}`;
+    document.getElementById("cart-tax").textContent = `Rp. ${tax.toLocaleString(
+      "id-ID"
+    )}`;
+    document.getElementById(
+      "cart-total"
+    ).textContent = `Rp. ${total.toLocaleString("id-ID")}`;
 
     const itemsForDataLayer = cartItems.map((product, index) => ({
       item_id: product.item_id,
@@ -102,25 +110,41 @@ document.addEventListener("DOMContentLoaded", () => {
       item_brand: product.item_brand,
       item_variant: product.item_variant,
       affiliation: product.affiliation,
-      quantity: product.quantity
-    })); 
+      quantity: product.quantity,
+    }));
 
+    // kirim event begin_checkout ke data layer
     window.dataLayer = window.dataLayer || [];
     dataLayer.push({
       event: "begin_checkout",
       ecommerce: {
         currency: "IDR",
-        value: total,
-        tax: tax,
-        items: itemsForDataLayer
+        value: subTotal,
+        items: itemsForDataLayer,
       },
     });
-  }
 
-  // TODO: Nanti, tambahkan kode di sini untuk:
-  //       - Menghitung dan menampilkan total harga
-  //       - Menambah event listeners untuk tombol Hapus
-  //       - Menambah event listeners untuk input quantity
-  //       - Mengirim event GA4 begin_checkout saat halaman ini dimuat (jika keranjang tidak kosong)
-  //       - Menambah event listener pada tombol Proses Checkout
+    // menambahkan event listener purchase
+    const purchaseButton = document.getElementById("checkout-button");
+    const username = document.getElementById("name");
+    const address = document.getElementById("address");
+
+    purchaseButton.addEventListener("click", () => {
+      const transactionId = new Date().getTime();
+      // kirim event purchase ke data layer
+      window.dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          transaction_id: `tid-${transactionId}`,
+          currency: "IDR",
+          value: total,
+          tax: tax,
+          username: username.value,
+          address: address.value,
+          items: itemsForDataLayer,
+        },
+      });
+    });
+  }
 });
