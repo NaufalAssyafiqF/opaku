@@ -131,6 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     purchaseButton.addEventListener("click", () => {
       const transactionId = new Date().getTime();
+      console.log(transactionId);
+      
       // kirim event purchase ke data layer
       window.dataLayer = window.dataLayer || [];
       dataLayer.push({
@@ -145,6 +147,10 @@ document.addEventListener("DOMContentLoaded", () => {
           items: itemsForDataLayer,
         },
       });
+
+      alert("Terimakasih sudah belanja di Toko Online Kami!");
+      localStorage.removeItem("cart");
+      window.location.href = "index.html";
     });
   }
 });
