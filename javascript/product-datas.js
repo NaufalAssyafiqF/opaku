@@ -5,6 +5,9 @@ let products = [
     price: 55000,
     item_category: "fashion",
     image: "images/kaos-polos.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "distro",
+    item_variant: "hijau"
   },
   {
     item_id: "product-2552",
@@ -12,6 +15,9 @@ let products = [
     price: 80000,
     item_category: "fashion",
     image: "images/kemeja.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "alisan",
+    item_variant: "lengan panjang"
   },
   {
     item_id: "product-2553",
@@ -19,6 +25,9 @@ let products = [
     price: 33000,
     item_category: "fashion",
     image: "images/topi.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "adidas",
+    item_variant: "hitam"
   },
   {
     item_id: "product-2554",
@@ -26,6 +35,9 @@ let products = [
     price: 15000000,
     item_category: "electronic",
     image: "images/iphone16.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "apple",
+    item_variant: "128gb"
   },
   {
     item_id: "product-2555",
@@ -33,6 +45,9 @@ let products = [
     price: 4000000,
     item_category: "electronic",
     image: "images/laptop.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "asus",
+    item_variant: "16gb"
   },
   {
     item_id: "product-2556",
@@ -40,6 +55,9 @@ let products = [
     price: 300000,
     item_category: "electronic",
     image: "images/keyboard.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "logitech",
+    item_variant: "rgb"
   },
   {
     item_id: "product-2557",
@@ -47,6 +65,9 @@ let products = [
     price: 60000,
     item_category: "furniture",
     image: "images/vas-bunga.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "rumah bunga",
+    item_variant: "bunga mawar"
   },
   {
     item_id: "product-2558",
@@ -54,6 +75,9 @@ let products = [
     price: 40000,
     item_category: "furniture",
     image: "images/lukisan.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "ikea",
+    item_variant: "pemandangan gunung"
   },
   {
     item_id: "product-2559",
@@ -61,6 +85,9 @@ let products = [
     price: 250000,
     item_category: "furniture",
     image: "images/meja-belajar.webp",
+    affiliation: "opaku store merchant",
+    item_brand: "ikea",
+    item_variant: "240cm x 60cm"
   },
 ];
 

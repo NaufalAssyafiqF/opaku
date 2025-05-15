@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", async () => {
               item_name: product.item_name,
               price: product.price,
               item_category: product.category, 
-              quantity: 1, 
+              quantity: 1,
+              affiliation: product.affiliation,
+              item_brand: product.item_brand,
+              item_variant: product.item_variant,
+              index: 1
             },
           ],
         },
