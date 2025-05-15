@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       pageTitleElement.innerText = "Opaku Store - " + product.item_name; // Update judul halaman
 
       productNameElement.innerText = product.item_name;
-      productCategoryElement.innerText = product.item_category || "Umum"; // Tampilkan kategori, default 'Umum' jika kosong
+      productCategoryElement.innerText = product.item_category; // Tampilkan kategori, default 'Umum' jika kosong
       productPriceElement.innerText = `Rp. ${product.price.toLocaleString(
         "id-ID"
       )}`; // Format harga
@@ -96,11 +96,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             item_id: product.item_id,
             item_name: product.item_name,
             price: product.price,
-            item_category: product.category,
+            image: product.image,
             quantity: parseInt(quantityInput.value),
             affiliation: product.affiliation,
             item_brand: product.item_brand,
             item_variant: product.item_variant,
+            item_category: product.item_category,
           });
           localStorage.setItem("cart", JSON.stringify(getCart));
         } else {
@@ -111,11 +112,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 item_id: product.item_id,
                 item_name: product.item_name,
                 price: product.price,
-                item_category: product.category,
+                image: product.image,
                 quantity: parseInt(quantityInput.value),
                 affiliation: product.affiliation,
                 item_brand: product.item_brand,
                 item_variant: product.item_variant,
+                item_category: product.item_category,
               },
             ])
           );
@@ -133,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 item_id: product.item_id,
                 item_name: product.item_name,
                 price: product.price,
-                item_category: product.category,
+                item_category: product.item_category,
                 quantity: parseInt(quantityInput.value),
                 affiliation: product.affiliation,
                 item_brand: product.item_brand,

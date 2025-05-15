@@ -14,5 +14,5 @@ bannerPromotion.addEventListener("click", () => {
       },
     });
 
-    window.location.href = "promotion.html";
+    window.location.href = "promotion-page.html";
 });
