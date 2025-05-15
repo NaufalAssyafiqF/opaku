@@ -14,7 +14,6 @@
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-57WSLZWJ');</script>
-    <title>Opaku Store - Furniture</title>
     <!-- End Google Tag Manager -->
     <title>Opaku Store - Product</title>
 </head>
@@ -36,7 +35,7 @@
             <div>
                 <ul class="flex gap-8 text-xl">
                     <li>Category</li>
-                    <li>Cart</li>
+                    <a href="/checkout-page.html"><li>Cart</li></a>
                 </ul>
             </div>
         </nav>
@@ -65,7 +64,7 @@
                     </div>
                 </div>
             </div>
-
+            <input type="number" min="1" placeholder="Quantity" value="1" id="product-quantity" class="w-full rounded-md px-3 py-2">
             <button id="add-to-cart-btn"
                 class="w-full text-center bg-black/60 text-white rounded-md px-3 py-2 cursor-pointer hover:bg-black/65 transition duration-300 ease-in-out">
                 Add to Cart

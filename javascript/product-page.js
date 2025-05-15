@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 1. Baca URL dan ambil query parameter 'item_id'
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("item_id"); // Mengambil nilai dari parameter 'item_id'
-  console.log({ productId });
 
   // Dapatkan referensi ke elemen-elemen tempat konten akan ditampilkan menggunakan ID
   const productDetailContainer = document.getElementById(
@@ -19,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const productImageElement = document.getElementById("product-image");
 
   const addToCartButton = document.getElementById("add-to-cart-btn");
+  const quantityInput = document.getElementById("product-quantity");
   const pageTitleElement = document.querySelector("title"); // Juga update judul halaman
 
   // Pastikan elemen-elemen penting ditemukan sebelum melanjutkan
@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         "id-ID"
       )}`; // Format harga
       productImageElement.src = product.image || ""; // Set src gambar
-      console.log(product.image);
 
       productImageElement.alt = product.item_name; // Set alt gambar
 
@@ -86,30 +85,74 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       // 5. Tambahkan event listener untuk tombol Add to Cart
-      // Pastikan event listener hanya ditambahkan setelah tombol ada dan data produk siap
       addToCartButton.addEventListener("click", () => {
-        console.log(
-          `Tombol 'Add to Cart' diklik untuk produk ID: ${product.id}`
-        );
+        console.log("test add to cart");
+        
         // TODO: Implementasikan logika sebenarnya untuk menambah produk ke keranjang (misal: pakai localStorage)
+        let getCart = localStorage.getItem("cart");
+        if (getCart) {
+          getCart = JSON.parse(getCart);
+          getCart.push({
+            item_id: product.item_id,
+            item_name: product.item_name,
+            price: product.price,
+            item_category: product.category,
+            quantity: parseInt(quantityInput.value),
+            affiliation: product.affiliation,
+            item_brand: product.item_brand,
+            item_variant: product.item_variant,
+          });
+          localStorage.setItem("cart", JSON.stringify(getCart));
+        } else {
+          localStorage.setItem(
+            "cart",
+            JSON.stringify([
+              {
+                item_id: product.item_id,
+                item_name: product.item_name,
+                price: product.price,
+                item_category: product.category,
+                quantity: parseInt(quantityInput.value),
+                affiliation: product.affiliation,
+                item_brand: product.item_brand,
+                item_variant: product.item_variant,
+              },
+            ])
+          );
+        }
 
         // TODO: Kirim event 'add_to_cart' ke dataLayer
-        // window.dataLayer = window.dataLayer || [];
-        // dataLayer.push({
-        //   event: "add_to_cart",
-        //   ecommerce: {
-        //     items: [
-        //       {
-        //         item_id: product.id,
-        //         item_name: product.name,
-        //         price: product.price,
-        //         quantity: 1, // Sesuaikan jika ada input quantity di UI
-        //       },
-        //     ],
-        //   },
-        // });
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+          event: "add_to_cart",
+          ecommerce: {
+            currency: "IDR",
+            value: product.price * parseInt(quantityInput.value),
+            items: [
+              {
+                item_id: product.item_id,
+                item_name: product.item_name,
+                price: product.price,
+                item_category: product.category,
+                quantity: parseInt(quantityInput.value),
+                affiliation: product.affiliation,
+                item_brand: product.item_brand,
+                item_variant: product.item_variant,
+                index: 1
+              },
+            ],
+          },
+        });
         // console.log("dataLayer push (add_to_cart):", dataLayer.slice(-1)[0]);
+
+        alert(
+          `Produk ${product.item_name} dengan quantity ${quantityInput.value} berhasil ditambahkan ke keranjang!`
+        );
+
       });
+
+      
+
     } else {
       // 6. Tangani kasus produk tidak ditemukan berdasarkan ID
       pageTitleElement.innerText = "Produk Tidak Ditemukan";
