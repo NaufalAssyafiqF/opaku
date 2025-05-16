@@ -51,7 +51,8 @@ product_2551.addEventListener("click", () => {
   ];
 
   //   push data layer select_item
-  window.dataLayer = window.dataLayer || [];
+  //   window.dataLayer = window.dataLayer || [];
+  dataLayer.push({ ecommerce: null });
   dataLayer.push({
     event: "select_item",
     ecommerce: {
@@ -81,7 +82,8 @@ product_2552.addEventListener("click", () => {
   ];
 
   //   push data layer select_item
-  window.dataLayer = window.dataLayer || [];
+  //   window.dataLayer = window.dataLayer || [];
+  dataLayer.push({ ecommerce: null });
   dataLayer.push({
     event: "select_item",
     ecommerce: {
@@ -110,7 +112,8 @@ product_2553.addEventListener("click", () => {
   ];
 
   //   push data layer select_item
-  window.dataLayer = window.dataLayer || [];
+  //   window.dataLayer = window.dataLayer || [];
+  dataLayer.push({ ecommerce: null });
   dataLayer.push({
     event: "select_item",
     ecommerce: {
