@@ -58,6 +58,17 @@
             <p id="cart-empty-message" class="text-gray-500 text-center italic">
                 Keranjang Anda kosong.
             </p>
+            
+        </div>
+
+        <div class="flex items-center mb-6">
+            <label for="item-to-delete" class="mr-2">Delete Item No.:</label>
+            <select id="item-to-delete-select" class="border rounded px-2 py-1 mr-2">
+                <option value="">-- Choose item cart --</option>
+            </select>
+            <button id="delete-selected-item-btn" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition duration-300 ease-in-out cursor-pointer">
+                Delete
+            </button>
         </div>
 
         <div id="cart-summary" class="bg-white shadow-md rounded-lg p-6">

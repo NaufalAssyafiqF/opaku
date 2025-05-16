@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartItemsContainer = document.getElementById("cart-items-container");
   const cartEmptyMessage = document.getElementById("cart-empty-message");
 
+  const purchaseButton = document.getElementById("checkout-button");
+  const username = document.getElementById("name");
+  const address = document.getElementById("address");
+
   // Pastikan container dan pesan kosong ada di HTML
   if (!cartItemsContainer || !cartEmptyMessage) {
     console.error(
@@ -45,12 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
     cartEmptyMessage.style.display = "block";
     cartItemsContainer.innerHTML =
       "<h1 class='text-center'>your cart is empty</h1>"; // Pastikan container item kosong
+
+    purchaseButton.addEventListener("click", () => {
+      alert("cart anda kosong, silahkan belanja terlebih dahulu");
+    });
   } else {
     // Jika keranjang tidak kosong, sembunyikan pesan kosong
     cartEmptyMessage.style.display = "none";
 
     // Gunakan .map() untuk membuat array string HTML untuk setiap item
-    const cartItemsHtml = cartItems.map((item) => {
+    const cartItemsHtml = cartItems.map((item, index) => {
       // Pastikan item memiliki properti yang Anda butuhkan, gunakan fallback jika tidak ada
       const itemId = item.item_id || "unknown-id";
       const itemName = item.item_name || "Nama Produk Tidak Diketahui";
@@ -67,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Struktur HTML untuk satu item di keranjang (sesuai komentar di HTML Anda sebelumnya)
       return `
                 <div class="flex items-center border-b border-gray-200 py-4">
+                    <div class="mr-4"><h1 class="text-lg font-semibold">${index + 1}.</h1></div>
                     <img src="${itemImageUrl}" alt="${itemName}" class="h-16 w-16 object-cover rounded mr-4">
                     <div class="flex-grow">
                         <h2 class="text-lg font-semibold">${itemName}</h2>
@@ -74,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p class="text-gray-800">Rp. ${formattedPrice} x ${itemQuantity}</p>
                         <p class="text-gray-800 font-semibold">Total Item: Rp. ${formattedItemTotal}</p>
                     </div>
+                    
                     <div class="flex items-center">
                          </div>
                 </div>
@@ -82,6 +92,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gabungkan array string HTML menjadi satu string besar dan masukkan ke dalam container
     cartItemsContainer.innerHTML = cartItemsHtml.join("");
+
+    const deleteDropdown = document.getElementById("item-to-delete-select");
+    const deleteSelectedButton = document.getElementById(
+      "delete-selected-item-btn"
+    );
+
+    // Membuat option untuk dropdown
+    const makeOption = cartItems.map((item, index) => {
+      return `<option value="${item.item_id}">${index + 1}. ${item.item_name}</option>`;
+    });
+
+    deleteDropdown.innerHTML = makeOption.join("");
+
+    // handler untuk delete item cart sesuai value dropdown
+    deleteSelectedButton.addEventListener("click", () => {
+      const selectedValue = deleteDropdown.value;
+
+      // cari item yang akan dikirimkan ke data layer
+      const findItem = cartItems.find((item) => item.item_id === selectedValue);
+      console.log({findItem});
+
+      const itemDatalayerDelete = findItem.map((product, index) => ({
+        item_id: product.item_id,
+        item_name: product.item_name,
+        price: product.price,
+        item_category: product.item_category,
+        index: index + 1,
+        item_brand: product.item_brand,
+        item_variant: product.item_variant,
+        affiliation: product.affiliation,
+        quantity: product.quantity,
+      }));
+
+      window.dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "remove_from_cart",
+        ecommerce: {
+          currency: "IDR",
+          value: findItem.price * findItem.quantity,
+          items: itemDatalayerDelete,
+        },
+      });
+
+      // filter item yang tidak sesuai
+      const filteredItems = cartItems.filter(
+        (item) => item.item_id !== selectedValue
+      );
+      console.log({filteredItems});
+      
+      // jadikan filter item yang didapat dan disimpan ke localStorage
+      localStorage.setItem("cart", JSON.stringify(filteredItems));
+      // location.reload();
+    });
 
     // menghitung subtotal dan total
     const subTotal = cartItems.reduce((total, item) => {
@@ -125,14 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // menambahkan event listener purchase
-    const purchaseButton = document.getElementById("checkout-button");
-    const username = document.getElementById("name");
-    const address = document.getElementById("address");
 
     purchaseButton.addEventListener("click", () => {
       const transactionId = new Date().getTime();
       console.log(transactionId);
-      
+
       // kirim event purchase ke data layer
       window.dataLayer = window.dataLayer || [];
       dataLayer.push({
@@ -152,5 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("cart");
       window.location.href = "index.html";
     });
+
+    
   }
 });
