@@ -9,6 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const username = document.getElementById("name");
   const address = document.getElementById("address");
 
+  const purchase_Button = document.getElementById("purchase-button");
+
+  const couponDropdown = document.getElementById("coupon-select");
+  
+
+  const textNama = document.getElementById("text-nama");
+  const textCoupon = document.getElementById("text-coupon");
+  const textAddress = document.getElementById("text-address");
+  const textTotal = document.getElementById("text-total");
+
   // Pastikan container dan pesan kosong ada di HTML
   if (!cartItemsContainer || !cartEmptyMessage) {
     console.error(
@@ -109,8 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteSelectedButton.addEventListener("click", () => {
       const cartItemsDelete = JSON.parse(localStorage.getItem("cart"));
       const selectedValue = parseInt(deleteDropdown.value);
-      console.log(selectedValue);
-      
 
       // cari item yang akan dikirimkan ke data layer
       const findItem = cartItems[selectedValue];
@@ -166,34 +174,94 @@ document.addEventListener("DOMContentLoaded", () => {
       "cart-total"
     ).textContent = `Rp. ${total.toLocaleString("id-ID")}`;
 
-    const itemsForDataLayer = cartItems.map((product, index) => ({
-      item_id: product.item_id,
-      item_name: product.item_name,
-      price: product.price,
-      item_category: product.item_category,
-      index: index + 1,
-      item_brand: product.item_brand,
-      item_variant: product.item_variant,
-      affiliation: product.affiliation,
-      quantity: product.quantity,
-    }));
+    let newTotal = 0;
 
-    // kirim event begin_checkout ke data layer
-    window.dataLayer = window.dataLayer || [];
-    dataLayer.push({
-      event: "begin_checkout",
-      ecommerce: {
-        currency: "IDR",
-        value: subTotal,
-        items: itemsForDataLayer,
-      },
+    // menambahkan event listener checkout
+    purchaseButton.addEventListener("click", () => {
+      document.getElementById("myModal").classList.remove("hidden");
+
+      const couponText = couponDropdown.value;
+      console.log({couponText});
+      
+
+      if (couponText === "promo-20%") {
+        const discount = (total * 20) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      } else if (couponText === "promo-50%") {
+        const discount = (total * 50) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      } else if (couponText === "promo-10%") {
+        const discount = (total * 10) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      }
+
+
+      textNama.textContent = username.value;
+      textAddress.textContent = address.value;
+      textCoupon.textContent = couponText;
+
+      const itemsForDataLayer = cartItems.map((product, index) => ({
+        item_id: product.item_id,
+        item_name: product.item_name,
+        price: product.price,
+        item_category: product.item_category,
+        index: index + 1,
+        item_brand: product.item_brand,
+        item_variant: product.item_variant,
+        affiliation: product.affiliation,
+        quantity: product.quantity,
+      }));
+
+      // kirim event begin_checkout ke data layer
+      window.dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          currency: "IDR",
+          value: subTotal,
+          items: itemsForDataLayer,
+        },
+      });
+
     });
 
-    // menambahkan event listener purchase
+    // event listener untuk purchase  
+    purchase_Button.addEventListener("click", () => {
+      document.getElementById("myModal").classList.add("hidden");
 
-    purchaseButton.addEventListener("click", () => {
       const transactionId = new Date().getTime();
-      console.log(transactionId);
+
+      const couponText = couponDropdown.value;
+
+      if (couponText === "promo-20%") {
+        const discount = (total * 20) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      } else if (couponText === "promo-50%") {
+        const discount = (total * 50) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      } else {
+        const discount = (total * 10) / 100;
+        newTotal = total - discount;
+        textTotal.textContent = `Rp. ${newTotal.toLocaleString("id-ID")}`;
+      }
+
+
+      const itemsForDataLayer = cartItems.map((product, index) => ({
+        item_id: product.item_id,
+        item_name: product.item_name,
+        price: product.price,
+        item_category: product.item_category,
+        index: index + 1,
+        item_brand: product.item_brand,
+        item_variant: product.item_variant,
+        affiliation: product.affiliation,
+        quantity: product.quantity,
+      }));
 
       // kirim event purchase ke data layer
       window.dataLayer = window.dataLayer || [];
@@ -202,7 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ecommerce: {
           transaction_id: `tid-${transactionId}`,
           currency: "IDR",
-          value: total,
+          value: newTotal,
+          coupon: couponText,
           tax: tax,
           username: username.value,
           address: address.value,
@@ -214,7 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("cart");
       window.location.href = "index.html";
     });
-
     
   }
 });

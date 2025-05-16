@@ -58,7 +58,7 @@
             <p id="cart-empty-message" class="text-gray-500 text-center italic">
                 Keranjang Anda kosong.
             </p>
-            
+
         </div>
 
         <div class="flex items-center mb-6">
@@ -66,7 +66,8 @@
             <select id="item-to-delete-select" class="border rounded px-2 py-1 mr-2">
                 <option value="">-- Choose item cart --</option>
             </select>
-            <button id="delete-selected-item-btn" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition duration-300 ease-in-out cursor-pointer">
+            <button id="delete-selected-item-btn"
+                class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition duration-300 ease-in-out cursor-pointer">
                 Delete
             </button>
         </div>
@@ -99,6 +100,16 @@
                         <textarea id="address"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                     </div>
+                    <div>
+                        <label for="" class="block text-gray-700 text-sm font-bold">Cupon</label>
+                        <select name=""
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="coupon-select">
+                            <option value="promo-20%">Promo 20% </option>
+                            <option value="promo-50%">Promo 50% </option>
+                            <option value="promo-10%">promo 10%</option>
+                        </select>
+                    </div>
                 </form>
             </div>
 
@@ -109,6 +120,50 @@
             <p id="checkout-error" class="text-red-500 text-center mt-4" style="display: none"></p>
         </div>
     </main>
+
+    <!-- Modal background -->
+    <div id="myModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <!-- Modal box -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md space-y-5">
+            <h2 class="text-2xl font-bold text-gray-800">Purchase Confirmation</h2>
+          
+            <div class="space-y-3">
+              <div class="flex justify-between text-sm">
+                <p class="text-gray-600 font-medium">Name</p>
+                <p id="text-nama" class="text-gray-900 font-semibold">test</p>
+              </div>
+              <div class="flex justify-between text-sm">
+                <p class="text-gray-600 font-medium">Address</p>
+                <p id="text-address" class="text-gray-900 font-semibold">Bogor</p>
+              </div>
+              <div class="flex justify-between text-sm">
+                <p class="text-gray-600 font-medium">Coupon</p>
+                <p id="text-coupon" class="text-green-600 font-semibold">Potongan 50%</p>
+              </div>
+            </div>
+          
+            <hr class="border-gray-200">
+          
+            <div class="flex justify-between items-center">
+              <p class="text-lg font-bold text-gray-800">Total</p>
+              <p id="text-total" class="text-lg font-bold text-blue-600">Rp 10.000</p>
+            </div>
+          
+            <div class="flex justify-end space-x-3 pt-4">
+              <button onclick="document.getElementById('myModal').classList.add('hidden')"
+                class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+                Cancel
+              </button>
+              <button id="purchase-button" onclick="document.getElementById('myModal').classList.add('hidden')"
+                class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+                Purchase
+              </button>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+
 
     <script src="javascript/checkout-page.js"></script>
 </body>
