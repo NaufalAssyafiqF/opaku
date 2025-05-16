@@ -113,17 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const findItem = cartItems.find((item) => item.item_id === selectedValue);
       console.log({findItem});
 
-      const itemDatalayerDelete = findItem.map((product, index) => ({
-        item_id: product.item_id,
-        item_name: product.item_name,
-        price: product.price,
-        item_category: product.item_category,
-        index: index + 1,
-        item_brand: product.item_brand,
-        item_variant: product.item_variant,
-        affiliation: product.affiliation,
-        quantity: product.quantity,
-      }));
+      const itemDatalayerDelete = [{
+        item_id: findItem.item_id,
+        item_name: findItem.item_name,
+        price: findItem.price,
+        item_category: findItem.item_category,
+        index: 1,
+        item_brand: findItem.item_brand,
+        item_variant: findItem.item_variant,
+        affiliation: findItem.affiliation,
+        quantity: findItem.quantity,
+      }];
+
 
       window.dataLayer = window.dataLayer || [];
       dataLayer.push({
@@ -143,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // jadikan filter item yang didapat dan disimpan ke localStorage
       localStorage.setItem("cart", JSON.stringify(filteredItems));
-      // location.reload();
+      location.reload();
     });
 
     // menghitung subtotal dan total
