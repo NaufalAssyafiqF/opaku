@@ -100,19 +100,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Membuat option untuk dropdown
     const makeOption = cartItems.map((item, index) => {
-      return `<option value="${item.item_id}">${index + 1}. ${item.item_name}</option>`;
+      return `<option value="${index}">${index + 1}. ${item.item_name}</option>`;
     });
 
     deleteDropdown.innerHTML = makeOption.join("");
 
     // handler untuk delete item cart sesuai value dropdown
     deleteSelectedButton.addEventListener("click", () => {
-      const selectedValue = deleteDropdown.value;
+      const cartItemsDelete = JSON.parse(localStorage.getItem("cart"));
+      const selectedValue = parseInt(deleteDropdown.value);
+      console.log(selectedValue);
+      
 
       // cari item yang akan dikirimkan ke data layer
-      const findItem = cartItems.find((item) => item.item_id === selectedValue);
-      console.log({findItem});
+      const findItem = cartItems[selectedValue];
 
+      // melakukan pust data layer untuk event remove_from_cart
       const itemDatalayerDelete = [{
         item_id: findItem.item_id,
         item_name: findItem.item_name,
@@ -125,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
         quantity: findItem.quantity,
       }];
 
-
       window.dataLayer = window.dataLayer || [];
       dataLayer.push({
         event: "remove_from_cart",
@@ -137,11 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // filter item yang tidak sesuai
-      const filteredItems = cartItems.filter(
-        (item) => item.item_id !== selectedValue
-      );
-      console.log({filteredItems});
-      
+      const filteredItems = cartItemsDelete.filter((item, index) => {
+        return index !== selectedValue;
+      });
+
       // jadikan filter item yang didapat dan disimpan ke localStorage
       localStorage.setItem("cart", JSON.stringify(filteredItems));
       location.reload();
